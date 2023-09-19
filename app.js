@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-const tours = JSON.parse(
+let tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, 'utf8')
 );
 
@@ -50,6 +50,29 @@ app.post('/api/v1/tours', (req, res) => {
     (err) => {
       if (err) console.log(err);
       res.status(201).json({ status: 'success', data: { tour: newTour } });
+    }
+  );
+});
+
+app.patch('/api/v1/tours/:id', (req, res) => {
+  const { id } = req.params;
+  const tour = tours.find((tour) => tour.id === Number(id));
+
+  if (!tour)
+    return res.status(404).json({ status: 'fail', message: 'Invalid ID' });
+
+  const updatedTour = { ...tour, ...req.body };
+  tours = tours.map((tour) => {
+    if (tour.id === Number(id)) return updatedTour;
+    return tour;
+  });
+
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(tours),
+    (err) => {
+      if (err) console.log(err);
+      res.status(201).json({ status: 'success', data: { updatedTour } });
     }
   );
 });
