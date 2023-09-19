@@ -72,7 +72,27 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     JSON.stringify(tours),
     (err) => {
       if (err) console.log(err);
-      res.status(201).json({ status: 'success', data: { updatedTour } });
+      res.status(200).json({ status: 'success', data: { updatedTour } });
+    }
+  );
+});
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const { id } = req.params;
+
+  const tour = tours.find((tour) => tour.id === Number(id));
+
+  if (!tour)
+    return res.status(404).json({ status: 'fail', message: 'Invalid ID' });
+
+  tours = tours.filter((tour) => tour.id !== Number(id));
+
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(tours),
+    (err) => {
+      if (err) console.log(err);
+      res.status(204).json({ status: 'success', data: null });
     }
   );
 });
