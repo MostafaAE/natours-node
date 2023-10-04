@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { default: slugify } = require('slugify');
 
 const slug = require('slugify');
 
@@ -93,9 +92,17 @@ tourSchema.pre(/^find/, function(next) {
   next();
 });
 
-tourSchema.post(/^find/, function(docs, next) {
-  console.log(`Query took: ${Date.now() - this.start} milliseconds!`);
-  console.log(docs);
+// tourSchema.post(/^find/, function(docs, next) {
+//   console.log(`Query took: ${Date.now() - this.start} milliseconds!`);
+//   console.log(docs);
+//   next();
+// });
+
+// AGGREGATION MIDDLEWARE
+tourSchema.pre('aggregate', function(next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+
+  console.log(this.pipeline());
   next();
 });
 
