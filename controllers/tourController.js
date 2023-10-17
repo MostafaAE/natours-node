@@ -80,6 +80,7 @@ exports.updateTourById = catchAsync(async (req, res, next) => {
 exports.deleteTourById = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
+  console.log(await Tour.findById(id));
   const tour = await Tour.findByIdAndDelete(id);
 
   if (!tour) {
