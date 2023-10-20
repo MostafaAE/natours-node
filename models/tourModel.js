@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const slugify = require('slugify');
-const validator = require('validator');
 
 // tour schema
 const tourSchema = mongoose.Schema(
@@ -103,6 +102,12 @@ const tourSchema = mongoose.Schema(
         address: String,
         description: String
       }
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+      }
     ]
   },
   {
@@ -121,9 +126,15 @@ tourSchema.pre('save', function(next) {
   next();
 });
 
-// tourSchema.post('save', function(doc, next) {
-//   console.log(doc);
-//   next();
+// tourSchema.post('save', function(next) {
+//   return async function() {
+//     const guidesPromises = this.guides.map(
+//       async guideId => await User.findById(guideId)
+//     );
+//     const guides = await Promise.all(guidesPromises);
+//     console.log(guides);
+//     next();
+//   };
 // });
 
 // QUERY MIDDLEWARE
@@ -131,7 +142,15 @@ tourSchema.pre('save', function(next) {
 tourSchema.pre(/^find/, function(next) {
   this.find({ secretTour: { $ne: true } });
 
-  this.start = Date.now();
+  // this.start = Date.now();
+  next();
+});
+
+tourSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt'
+  });
   next();
 });
 
