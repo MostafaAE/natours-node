@@ -36,3 +36,15 @@ exports.updateOne = Model =>
       }
     });
   });
+
+exports.createOne = Model =>
+  catchAsync(async (req, res, next) => {
+    // const newDoc = new Model({});
+    // await Doc.save();
+    const newDoc = await Model.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: { data: newDoc }
+    });
+  });
