@@ -79,6 +79,7 @@ exports.getAll = Model =>
       .sort()
       .limitFields()
       .paginate();
+    // const tours = await features.query.explain();
     const tours = await features.query;
 
     // Send response
