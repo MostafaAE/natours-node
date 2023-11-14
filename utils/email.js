@@ -51,9 +51,10 @@ module.exports = class Email {
     await this.send('welcome', 'Welcome to the Natours Familty!');
   }
 
-  // 3) Actually send the email with nodemailer
-  await transporter.sendMail(mailOptions);
-};
-
-module.exports = sendEmail;
+  async sendPasswordReset() {
+    await this.send(
+      'passwordReset',
+      'Your password reset token (valid for only 10 minutes)'
+    );
+  }
 };
