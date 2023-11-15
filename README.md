@@ -9,8 +9,8 @@ During this project, I did:
 - Designed a NoSQL database and used MongoDB for data storage.
 - Implemented database schema using Mongoose as ODM library.
 - Implemented user authentication and authorization using JWT, enhancing the security of user accounts and access control.
-- Developed a dynamic and intuitive user interface that allows users to easily browse and book tours, providing a seamless booking experience using pug templates.
-- implemented credit card payment functionality with Stripe, enabling users to book tours online.
+- Developed a dynamic and intuitive user interface with Pug templates that allows users to easily browse and book tours, providing a seamless booking experience.
+- Implemented credit card payment functionality with Stripe, enabling users to book tours online.
 
 ## Live Project
 
