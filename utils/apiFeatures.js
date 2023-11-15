@@ -29,7 +29,7 @@ module.exports = class APIFeatures {
   sort() {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.replaceAll(',', ' ');
-      console.log(sortBy);
+      // console.log(sortBy);
       this.query = this.query.sort(sortBy);
     } else {
       this.query = this.query.sort('-createdAt');
