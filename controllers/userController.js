@@ -15,6 +15,15 @@ const sharp = require('sharp');
 //   }
 // });
 
+exports.restrictDemoUser = (req, res, next) => {
+  if (req.user.email === 'demo@example.com')
+    return next(
+      new AppError('This is a demo user, this operation is restricted', 403)
+    );
+
+  next();
+};
+
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
